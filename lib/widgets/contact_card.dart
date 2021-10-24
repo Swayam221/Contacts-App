@@ -9,32 +9,37 @@ class ContactCard extends StatelessWidget{
   
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Column(
-        //mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(height: 15,),
-          CircleAvatar(
-            radius: 37,
-            backgroundColor: Colors.purple,
-            child: Text(firstName[0]+(lastName!=""?lastName[0]:""), style: TextStyle(fontSize: 35),),
-          ),
-          SizedBox(height: 10,),
-          Flexible(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: Text(firstName+" "+(lastName!=""?lastName:""),
-                style: TextStyle(fontSize: 20),),
+    var height = MediaQuery.of(context).size.height;
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints){
+        return Card(
+          child: Column(
+            //mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(height: 20,),
+              CircleAvatar(
+                radius: constraints.maxHeight/5,
+                backgroundColor: Colors.purple,
+                child: Text(firstName[0]+(lastName!=""?lastName[0]:""), style: TextStyle(fontSize: constraints.maxHeight/5),),
               ),
-            ),
+              SizedBox(height: 20,),
+              Flexible(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Text(firstName+" "+(lastName!=""?lastName:""),
+                    style: TextStyle(fontSize: constraints.maxHeight/10),),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20,),
+            ],
           ),
-          SizedBox(height: 10,),
-        ],
-      ),
+        );
+      },
     );
   }
   

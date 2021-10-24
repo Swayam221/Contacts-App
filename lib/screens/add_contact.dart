@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:contacts_app/services/api_calls.dart';
 import 'package:flutter/material.dart';
 
