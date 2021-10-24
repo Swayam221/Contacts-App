@@ -6,8 +6,8 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 class Services{
 
-  static String emulatorUrl = 'http://10.0.2.2:7000/';
-  // static String emulatorUrl = 'http://localhost:7000/';
+  // static String emulatorUrl = 'http://10.0.2.2:7000/';
+  static String emulatorUrl = 'http://localhost:7000/';
   static String addContactRoute = 'contacts/';
   static String editContactRoute = 'contacts/';
   static String deleteContactRoute = 'contacts/';

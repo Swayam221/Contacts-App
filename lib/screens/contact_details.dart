@@ -1,5 +1,6 @@
 import 'package:contacts_app/models/Contact.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ContactSingleInfoRow extends StatelessWidget {
   const ContactSingleInfoRow({
@@ -12,16 +13,29 @@ class ContactSingleInfoRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: EdgeInsets.only(top: 6, left: 24, bottom: 6),
-      leading: Padding(
-        padding: const EdgeInsets.only(right: 16),
-        child: Icon(
-          singleIcon,
-          size: 28,
+    return Center(
+      child: ListTile(
+        onTap: () async => await launch("mailto:$singleInfo"),
+        contentPadding: EdgeInsets.only(top: 6, left: 24, bottom: 6),
+        title: Center(
+          child: Row(
+            children: [
+              Icon(
+                singleIcon,
+                size: 28,
+              ),
+              SizedBox(width: 10,),
+              Text("$singleInfo", 
+                style: TextStyle(
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline,
+                  fontWeight: FontWeight.bold
+                ),
+              ),
+            ],
+          ),
         ),
       ),
-      title: Text("$singleInfo"),
     );
   }
 }
@@ -70,9 +84,15 @@ class SingleContactPage extends StatelessWidget {
             SizedBox(
               height: 28,
             ),
-            ContactSingleInfoRow(
-              singleInfo: contact.email,
-              singleIcon: Icons.email_outlined,
+            Column(
+              children: [
+                Center(
+                  child: ContactSingleInfoRow(
+                    singleInfo: contact.email,
+                    singleIcon: Icons.email_outlined,
+                  ),
+                ),
+              ],
             ),
           ]),
         ),
