@@ -85,7 +85,7 @@ class _HomePageState extends State<HomePage>{
               ),
               itemCount: contacts.length,
               itemBuilder: (context,index) {
-                return ContactCard(firstName: contacts[index].firstName,lastName: contacts[index].lastName,email: contacts[index].email,);
+                return ContactCard(contact: contacts[index],);
               },
             ),
           ),
