@@ -23,7 +23,7 @@ class ContactCard extends StatelessWidget{
             child: Text(firstName[0]+(lastName!=""?lastName[0]:""), style: TextStyle(fontSize: 35),),
           ),
           SizedBox(height: 10,),
-          Expanded(
+          Flexible(
             child: SingleChildScrollView(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10),
