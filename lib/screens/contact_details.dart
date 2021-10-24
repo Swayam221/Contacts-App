@@ -1,4 +1,5 @@
 import 'package:contacts_app/models/Contact.dart';
+import 'package:contacts_app/services/api_calls.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -40,11 +41,24 @@ class ContactSingleInfoRow extends StatelessWidget {
   }
 }
 
-class SingleContactPage extends StatelessWidget {
+class SingleContactPage extends StatefulWidget {
   final Contact contact;
 
   SingleContactPage({required this.contact}) : super();
+  _SingleContactState createState() => _SingleContactState();
 
+  Contact get getContact => contact;
+}  
+class _SingleContactState extends State<SingleContactPage>{
+  var contact;
+  bool loading = false;
+
+  @override
+  void initState(){
+    super.initState();
+    contact = widget.contact;
+  }
+  
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -94,6 +108,74 @@ class SingleContactPage extends StatelessWidget {
                 ),
               ],
             ),
+            Center(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(4),
+                child: Stack(
+                  children: <Widget>[
+                    Positioned.fill(
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: <Color>[
+                              Color(0xFFF44336),
+                              Color(0xFFEF5350),
+                              Color(0xFFE57373),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        padding: const EdgeInsets.all(16.0),
+                        primary: Colors.white,
+                        textStyle: const TextStyle(fontSize: 20),
+                      ),
+                      onPressed: () async {
+                        showDialog<String>(
+                          context: context, 
+                          builder: (BuildContext context) => AlertDialog(
+                            title: const Text('Confirm Delete'),
+                            content: Text('Are you sure you want to Delete the Contact for ${contact.firstName} ${contact.lastName}'),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () => Navigator.pop(context, 'Cancel'),
+                                child: const Text('Cancel'),
+                              ),
+                              TextButton(
+                                onPressed: () async {
+                                  setState(() {
+                                    loading = true;
+                                  });
+                                  try{
+                                    var response = await Services.deleteContact(contact.id);
+                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                      content: Text("Contact deleted.")));
+                                    Navigator.pop(context);  
+                                    Navigator.pop(context);  
+                                  }
+                                  catch(err)
+                                  {
+                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                      content: Text("Error while deleting contact.")));
+                                    Navigator.pop(context);    
+                                  }
+                                  setState(() {
+                                    loading = false;
+                                  });
+                                },
+                                child: const Text('Delete'),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      child: !loading?const Text('Delete Contact'):CircularProgressIndicator(),
+                    ),
+                  ],
+                ),
+              ),)
           ]),
         ),
       ),
