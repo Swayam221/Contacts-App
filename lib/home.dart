@@ -20,6 +20,10 @@ class _HomePageState extends State<HomePage>{
   List<Contact> contacts = [];
   var gridController = ScrollController();
   var searchController = TextEditingController();
+  
+  List<Contact> searchResults = [];
+  var searching = false;
+
   @override
   void initSate(){
     super.initState();
@@ -65,11 +69,28 @@ class _HomePageState extends State<HomePage>{
               prefixIcon: Icon(Icons.search),
             ),
             onChanged: (val) async
-            {},
+            {
+              if(searchController.text.isNotEmpty)
+              {
+                setState(() {
+                  searching=true;
+                });
+                List<Contact> sR = await Services.search(searchController.text);
+                setState(() {
+                  searchResults = sR;
+                });
+              }
+              else {
+                setState(() {
+                  searching = false;  
+                });
+                
+              }
+            },
           ),
         ),
       ),
-      body: Column(
+      body: !searching? Column(
           children: [
             Flexible(
               fit: FlexFit.loose,
@@ -90,6 +111,29 @@ class _HomePageState extends State<HomePage>{
             ),
           ),
         ]
+      ):searchResults.isNotEmpty?Column(
+          children: [
+            Flexible(
+              fit: FlexFit.loose,
+              child:GridView.builder(
+              controller: gridController,
+              primary: false,physics: BouncingScrollPhysics(),
+              padding: const EdgeInsets.all(20),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                crossAxisCount: !kIsWeb?2:4,
+                // children: books.map((i) => BookCard(title: i.title,author: i.author,publishDate: i.datePublished)).toList(),
+              ),
+              itemCount: searchResults.length,
+              itemBuilder: (context,index) {
+                return ContactCard(contact: searchResults[index],);
+              },
+            ),
+          ),
+        ]
+      ):Center(
+        child: Text("No Resutls for This Query", style: TextStyle(fontSize: 16),),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async { 

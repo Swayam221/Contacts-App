@@ -11,6 +11,7 @@ class Services{
   static String addContactRoute = 'contacts/';
   static String editContactRoute = 'contacts/';
   static String deleteContactRoute = 'contacts/';
+  static String searchRoute = 'contacts/search/';
   static String pageSize = '10';
   //static String host = 'localhost:7000';
 
@@ -73,6 +74,20 @@ class Services{
     }
   } 
   
+  static Future<List<Contact>> search(String query) async{
+    try{
+      
+      final response = await http.get(
+        Uri.parse(emulatorUrl+searchRoute+query),
+      );
+      List<Contact> results = (json.decode(response.body) as List).map((i) => Contact.fromJson(i)).toList();
+      return results;
+    }
+    catch(err){
+      return [];
+    }
+  }
+
 //get all contacts  
   static Future<List<Contact>> getContacts() async{
     try{
