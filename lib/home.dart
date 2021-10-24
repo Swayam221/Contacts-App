@@ -1,3 +1,4 @@
+import 'package:contacts_app/screens/add_contact.dart';
 import 'package:contacts_app/services/api_calls.dart';
 import 'package:contacts_app/widgets/contact_card.dart';
 import 'package:flutter/foundation.dart';
@@ -90,6 +91,19 @@ class _HomePageState extends State<HomePage>{
           ),
         ]
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async { 
+          await _navigate(context);
+        },
+        tooltip: 'Add A Contact',
+        child: Icon(Icons.add),
+      ), 
+    );
+  }
+  Future<void> _navigate(BuildContext context) async { 
+    await Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => AddContactPage()
+      )
     );
   }
 }
