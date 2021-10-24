@@ -88,6 +88,22 @@ class Services{
     }
   }
 
+// get paginated results
+  static Future<List<Contact>> getContactsByPage(int page) async{
+    try{
+      
+      final response = await http.get(
+        Uri.parse(emulatorUrl+addContactRoute+page.toString()+'/'+pageSize.toString()),
+      );
+      List<Contact> results = (json.decode(response.body) as List).map((i) => Contact.fromJson(i)).toList();
+      return results;
+    }
+    catch(err){
+      print("error");
+      return [];
+    }
+  }
+
 //get all contacts  
   static Future<List<Contact>> getContacts() async{
     try{

@@ -1,9 +1,11 @@
 import 'package:contacts_app/screens/add_contact.dart';
 import 'package:contacts_app/services/api_calls.dart';
+import 'package:contacts_app/services/pagination.dart';
 import 'package:contacts_app/widgets/contact_card.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 import 'models/Contact.dart';
 
@@ -18,6 +20,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>{
   List<Contact> contacts = [];
+  var pagination ;
   var gridController = ScrollController();
   var searchController = TextEditingController();
   
@@ -25,12 +28,13 @@ class _HomePageState extends State<HomePage>{
   var searching = false;
 
   @override
-  void initSate(){
+  void initState(){
     super.initState();
+    
     gridController.addListener((){
       if(gridController.position.pixels == gridController.position.maxScrollExtent)
       {
-
+        pagination.getContacts();
       }
     });
   }
@@ -47,12 +51,18 @@ class _HomePageState extends State<HomePage>{
   void didChangeDependencies()
   {
     super.didChangeDependencies();
+    // this.pagination = Provider.of<ContactPagination>(context);
   }
 
   @override 
   Widget build(BuildContext context)
   {
-    getContacts();
+    // getContacts();
+    // pagination = Provider.of<ContactPagination>(context);
+    pagination = Provider.of<ContactPagination>(context);
+    pagination.addListener(()=>{
+      contacts = pagination.contacts
+    });
     return Scaffold(
       appBar: AppBar(
         elevation: 5,
@@ -131,6 +141,8 @@ class _HomePageState extends State<HomePage>{
               },
             ),
           ),
+          if(pagination.loading)
+          CircularProgressIndicator(),
         ]
       ):Center(
         child: Text("No Resutls for This Query", style: TextStyle(fontSize: 16),),
@@ -141,7 +153,8 @@ class _HomePageState extends State<HomePage>{
         },
         tooltip: 'Add A Contact',
         child: Icon(Icons.add),
-      ), 
+      ),
+       
     );
   }
   Future<void> _navigate(BuildContext context) async { 
@@ -149,5 +162,6 @@ class _HomePageState extends State<HomePage>{
       MaterialPageRoute(builder: (context) => AddContactPage()
       )
     );
+    pagination.getContacts();
   }
 }
