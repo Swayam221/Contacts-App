@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage>{
   var pagination ;
   var gridController = ScrollController();
   var searchController = TextEditingController();
-  
+  bool loading = false;
   List<Contact> searchResults = [];
   var searching = false;
 
@@ -60,8 +60,9 @@ class _HomePageState extends State<HomePage>{
     // getContacts();
     // pagination = Provider.of<ContactPagination>(context);
     pagination = Provider.of<ContactPagination>(context);
-    pagination.addListener(()=>{
-      contacts = pagination.contacts
+    pagination.addListener((){
+      contacts = pagination.contacts;
+      loading = pagination.loading;
     });
     return Scaffold(
       appBar: AppBar(
@@ -120,6 +121,8 @@ class _HomePageState extends State<HomePage>{
               },
             ),
           ),
+          if(loading)
+          CircularProgressIndicator(),
         ]
       ):searchResults.isNotEmpty?Column(
           children: [
@@ -141,8 +144,6 @@ class _HomePageState extends State<HomePage>{
               },
             ),
           ),
-          if(pagination.loading)
-          CircularProgressIndicator(),
         ]
       ):Center(
         child: Text("No Resutls for This Query", style: TextStyle(fontSize: 16),),
