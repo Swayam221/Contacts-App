@@ -11,13 +11,11 @@ class ContactPagination extends ChangeNotifier{
 
   ContactPagination(){
     getContacts();
-    print("hello");
   }
 
   Future<void> getContacts() async
   {
     loading = true;
-    print(page);
     notifyListeners();
     List<Contact> results = await Services.getContactsByPage(page);
     if(results.isNotEmpty && results!=prev)

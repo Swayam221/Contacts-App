@@ -113,7 +113,6 @@ class _HomePageState extends State<HomePage>{
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
                 crossAxisCount: !kIsWeb?2:4,
-                // children: books.map((i) => BookCard(title: i.title,author: i.author,publishDate: i.datePublished)).toList(),
               ),
               itemCount: contacts.length,
               itemBuilder: (context,index) {
@@ -136,7 +135,6 @@ class _HomePageState extends State<HomePage>{
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
                 crossAxisCount: !kIsWeb?2:4,
-                // children: books.map((i) => BookCard(title: i.title,author: i.author,publishDate: i.datePublished)).toList(),
               ),
               itemCount: searchResults.length,
               itemBuilder: (context,index) {
