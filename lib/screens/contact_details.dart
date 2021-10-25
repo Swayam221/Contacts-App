@@ -1,6 +1,8 @@
 import 'package:contacts_app/models/Contact.dart';
 import 'package:contacts_app/services/api_calls.dart';
+import 'package:contacts_app/services/pagination.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactSingleInfoRow extends StatelessWidget {
@@ -52,6 +54,7 @@ class SingleContactPage extends StatefulWidget {
 class _SingleContactState extends State<SingleContactPage>{
   var contact;
   bool loading = false;
+  var pagination ;
 
   @override
   void initState(){
@@ -61,6 +64,8 @@ class _SingleContactState extends State<SingleContactPage>{
   
   @override
   Widget build(BuildContext context) {
+
+    pagination = Provider.of<ContactPagination>(context);
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
@@ -150,6 +155,28 @@ class _SingleContactState extends State<SingleContactPage>{
                                   });
                                   try{
                                     var response = await Services.deleteContact(contact.id);
+                                    int i=0;
+                                    for(var x in pagination.contacts)
+                                    {
+                                      
+                                      if(x.id==contact.id)
+                                      {
+                                        pagination.deleteC(i);
+                                        break;
+                                      }
+                                      i++;
+                                    }
+                                    i=0;
+                                    for(var x in pagination.prev)
+                                    {
+                                      
+                                      if(x.id==contact.id)
+                                      {
+                                        pagination.deleteP(i);
+                                        break;
+                                      }
+                                      i++;
+                                    }
                                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                       content: Text("Contact deleted.")));
                                     Navigator.pop(context);  

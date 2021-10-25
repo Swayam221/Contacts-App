@@ -40,5 +40,16 @@ class ContactPagination extends ChangeNotifier{
     notifyListeners();
   }
 
-
+  void deleteC(int index) {
+    contacts.removeAt(index);
+    notifyListeners();
+  }
+  void deleteP(int index) {
+    if(prev.length==10)
+    {
+      page=page-1;
+    }
+    prev.removeAt(index);
+    notifyListeners();
+  }
 }
