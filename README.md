@@ -1,16 +1,19 @@
 # contacts_app
 
-A new Flutter application.
+A contacts app in which users can add/delete any contact and search for contacts. 
+Node.js and MongoDB have been used for the backend and Flutter for the front-end of the application.
+The Flutter web app has been deployed on [000webhost](https://000webhost.com).
 
-## Getting Started
+## Backend
 
-This project is a starting point for a Flutter application.
+Node.js has been used for the backend of the application along with MongoDB Atlas for the database service.
+The backend Node.js app has been deployed on a heroku cloud service.
 
-A few resources to get you started if this is your first Flutter project:
+- [Link To Backend Repository](https://github.com/Swayam221/contacts-app-backend)
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+- [Link To Deployed Backend](https://backend-contacts-app.herokuapp.com/)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+## Link to Web App
+
+- [Web App Link](https://flutter-contacts-app.000webhostapp.com/#/)
